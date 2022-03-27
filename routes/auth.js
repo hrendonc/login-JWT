@@ -2,7 +2,7 @@ const router = require('express').Router()
 const User = require('../models/User')
 const Joi = require('@hapi/joi')
 const bcrypt = require('bcrypt')
-const { findOne } = require('../models/User')
+const jwt = require('jsonwebtoken')
 
 const schemaRegister = Joi.object({
     name: Joi.string().min(6).max(255).required(),
@@ -66,21 +66,32 @@ router.post('/login', async (req, res)=>{
     const user = await User.findOne({email: req.body.email})
     if (!user) {
         return res.status(400).json({
-            error: 'Existe un error en el usuario o conrtaseña, verifiquelo...'
+            error: 'Existe un error en el usuario o conrtaseña'
         })
     }
 
     const validPassword = await bcrypt.compare(req.body.password, user.password)
     if (!validPassword) {
         return res.status(400).json({
-            error: 'Existe un error en el usuario o conrtaseña, verifiquelo...'
+            error: 'Existe un error en el usuario o conrtaseña'
         })
     }
 
-    res.json({
+    // Crear Token
+    const token = jwt.sign({
+        name: user.name,
+        id: user.id
+    }, process.env.TOKEN)
+
+    res.header('auth-token', token).json({
         error: null,
-        data: 'Bienvenido!'
+        data: {token}
     })
+
+    // res.json({
+    //     error: null,
+    //     data: 'Bienvenido!'
+    // })
 })
 
 module.exports = router
