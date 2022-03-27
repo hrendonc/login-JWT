@@ -4,6 +4,10 @@ require('dotenv').config()
 const app = express()
 const authRoutes = require('./routes/auth.js')
 
+// Capturar body
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
 // Conexión a la base de datos
 const uri = `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@cluster0.fda5w.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`
 mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true})
