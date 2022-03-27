@@ -2,10 +2,16 @@ const router = require('express').Router()
 const User = require('../models/User')
 const Joi = require('@hapi/joi')
 const bcrypt = require('bcrypt')
+const { findOne } = require('../models/User')
 
 const schemaRegister = Joi.object({
     name: Joi.string().min(6).max(255).required(),
-    email: Joi.string().min(6).max(355).required().email(),
+    email: Joi.string().min(6).max(255).required().email(),
+    password: Joi.string().min(6).max(1024).required()
+})
+
+const schemaLogin = Joi.object({
+    email: Joi.string().min(6).max(255).required().email(),
     password: Joi.string().min(6).max(1024).required()
 })
 
@@ -46,6 +52,35 @@ router.post('/register', async (req, res)=>{
     } catch(e){
         res.status(400).json({e})
     }
+})
+
+router.post('/login', async (req, res)=>{
+    // Validaciones
+    const {err} = schemaLogin.validate(req.body)
+    if (err) {
+        return res.status(400).json({
+            error: err
+        })
+    }
+
+    const user = await User.findOne({email: req.body.email})
+    if (!user) {
+        return res.status(400).json({
+            error: 'Existe un error en el usuario o conrtaseña, verifiquelo...'
+        })
+    }
+
+    const validPassword = await bcrypt.compare(req.body.password, user.password)
+    if (!validPassword) {
+        return res.status(400).json({
+            error: 'Existe un error en el usuario o conrtaseña, verifiquelo...'
+        })
+    }
+
+    res.json({
+        error: null,
+        data: 'Bienvenido!'
+    })
 })
 
 module.exports = router
