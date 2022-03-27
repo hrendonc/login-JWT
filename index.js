@@ -1,9 +1,17 @@
 const express = require('express')
+const mongoose = require('mongoose')
+require('dotenv').config()
 const app = express()
+const authRoutes = require('./routes/auth.js')
 
-app.use('/', (req, res)=>{
-    res.send('Hola mundo!')
-})
+// Conexión a la base de datos
+const uri = `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@cluster0.fda5w.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`
+mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true})
+.then(() => console.log('Base de datos conectada'))
+.catch(e => console.error('Error DB:', e))
+
+// Middlewares
+app.use('/api/user', authRoutes)
 
 // Start server
 const PORT = process.env.PORT || 3000

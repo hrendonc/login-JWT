@@ -1,47 +1,202 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
+    <!-- CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="css/prism.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
-    <title>login-JWT</title>
-  </head>
-  <body>
-    <h1>login-JWT</h1>
+    <title>Node | login-JWT</title>
+</head>
+
+<body class="container">
+
+    <!-- Cabecera -->
+    <header>
+        <h1>Proyecto: login-JWT</h1>
+    </header>
     
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link active" aria-current="page" href="#">Home</a>
-        <a class="nav-link" href="#">Features</a>
-        <a class="nav-link" href="#">Pricing</a>
-        <a class="nav-link disabled">Disabled</a>
-      </div>
-    </div>
-  </div>
-</nav>
+    <!-- Navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><h2>Node.js</h2></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-brand">
+                <div class="navbar-nav">
+                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link" href="#">Features</a>
+                    <a class="nav-link" href="#">Pricing</a>
+                    <a class="nav-link disabled">Disabled</a>
+                </div>
+            </div>
+        </div>
+        <form class="navbar-brand d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </nav>
+
+    <!-- Artículo -->
+    <article>
+        <section class="mt-4">
+            <h4>Árbol de archivos</h4>
+            <pre><code class="language-text">- /routes
+    - auth.js
+- /models
+- package.json
+- index.js
+- .gitignore</code></pre>
+        </section>
     
+        <section class="mt-4">
+            <h4>Instalando Dependencias</h4>
+            <h6>Dependencias de app</h6>
+            <pre><code class="language-text">npm i express mongoose bcrypt dotenv jsonwebtoken @hapi/joi cors</code></pre>
     
+            <h6>Dependencias en modo Desarrallador</h6>
+            <pre><code class="language-text">npm i -D nodemon</code></pre>
+        </section>
+
+        <section class="mt-4">
+            <h4>Proteger datos de configuración</h4>
+            <h6>.gitignore</h6>
+            <pre><code class="language-text">node_modules
+.env</code></pre>
+        </section>
+    
+        <section class="mt-4">
+            <h4>Iniciando el Servidor</h4>
+            <h6>index.js</h6>
+            <pre><code class="language-javascript">const express = require('express')
+const app = express()
+
+app.use('/', (req, res)=>{
+ res.send('Hola mundo!')
+})
+    
+// Start server
+const PORT = process.env.PORT || 3000
+app.listen(PORT, ()=>{
+console.log(`Listening on port ${PORT}`)
+})</code></pre>
+          <h6>Probando el servidor</h6>
+            <pre><code class="language-text">npm run dev</code></pre>
+        </section>
+
+        <section class="mt-4">
+            <h4>Realizar petición GET</h4>
+            <pre><code class="language-text">http://localhost:3000</code></pre>
+        </section>
+
+        <hr class="mt-4">
+    </article>
+
+    <article>        
+        <h2>Rutas</h2>
+        <section class="mt-4">
+            <h4>Crear archivo de rutas</h4>
+            <h6>routes/auth.js</h6>
+            <pre><code class="language-javascript">const router = require('express').Router()
+
+router.post('/register', async (req, res)=>{
+    res.json({
+        error: null,
+        data: 'Aquí irá la data'
+    })
+})
+                
+module.exports = router</code></pre>
+        </section>
+
+        <section class="mt-4">
+            <h6>index.js</h6>
+            <pre><code class="language-javascript">const authRoutes = require('./routes/auth.js')
+
+// Middlewares
+app.use('/api/user', authRoutes)</code></pre>
+        </section>
+
+        <section class="mt-4">
+            <h4>Realizar petición POST</h4>
+            <pre><code class="language-text">http://localhost:3000/api/user/register</code></pre>
+        </section>
+        <hr class="mt-4">
+    </article>
+
+    <article>
+        <section class="mt-4">
+            <h4>Conexión a la Base de Datos</h4>
+            <h6>Crear cuenta en mongo y configurar el nombre de usuario y pass</h6>
+            <h6>.env</h6>
+            <pre><code class="language-text">USER=userName
+PASSWORD=userPass
+DBNAME=users</code></pre>
+        </section>
+        <section class="mt-4">
+            <h4>Realizar la conexión a la DB</h4>
+            <h6>index.js</h6>
+            <pre><code class="language-text">
+                const express = require('express')
+                const mongoose = require('mongoose')
+                require('dotenv').config()
+                const app = express()
+                const authRoutes = require('./routes/auth.js')
+                
+                // Conexión a la base de datos
+                const uri = `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@cluster0.fda5w.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`
+                mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true})
+                .then(() => console.log('Base de datos conectada'))
+                .catch(e => console.error('Error DB:', e))
+                
+                // Middlewares
+                app.use('/api/user', authRoutes)
+                
+                // Start server
+                const PORT = process.env.PORT || 3000
+                app.listen(PORT, ()=>{
+                    console.log(`Listening on port ${PORT}`)
+                })</code></pre>
+        </section>
+        
+    </article>
+    
+    <!-- Barra lateral -->
+    <aside></aside>
+    
+    <!-- Footer -->
+    <footer>
+        <hr class="mt-5">
+        <div class="d-flex justify-content-evenly">        
+            <a href=""><i class="bi bi-facebook" style="font-size: 2rem; color: cornflowerblue;"></i></a>
+            <a href=""><i class="bi bi-messenger" style="font-size: 2rem; color: cornflowerblue;"></i></a>
+            <a href=""><i class="bi bi-whatsapp" style="font-size: 2rem; color: cornflowerblue;"></i></a>
+            <a href=""><i class="bi bi-twitter" style="font-size: 2rem; color: cornflowerblue;"></i></a>
+        </div>
+    </footer>
     
 
+    
     <!-- Optional JavaScript; choose one of the two! -->
-
+    <script src="js/prism.js"></script>
+    
     <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+        </script>
+    
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <!--
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     -->
-  </body>
+</body>
+
 </html>
