@@ -49,8 +49,8 @@ router.post('/register', async (req, res)=>{
             error: null,
             data: savedUser
         })
-    } catch(e){
-        res.status(400).json({e})
+    } catch(err){
+        res.status(400).json({error: err.message})
     }
 })
 
@@ -66,14 +66,14 @@ router.post('/login', async (req, res)=>{
     const user = await User.findOne({email: req.body.email})
     if (!user) {
         return res.status(400).json({
-            error: 'Existe un error en el usuario o conrtaseña'
+            error: 'Existe un error en el usuario o contraseña'
         })
     }
 
     const validPassword = await bcrypt.compare(req.body.password, user.password)
     if (!validPassword) {
         return res.status(400).json({
-            error: 'Existe un error en el usuario o conrtaseña'
+            error: 'Existe un error en el usuario o contraseña'
         })
     }
 
@@ -85,7 +85,7 @@ router.post('/login', async (req, res)=>{
 
     res.header('auth-token', token).json({
         error: null,
-        data: {token}
+        token
     })
 
     // res.json({

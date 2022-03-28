@@ -11,12 +11,12 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true,
         min: 6,
-        max: 255
+        max: 1024
     },
     password: {
         type: String,
         required: true,
-        minlength: 1024
+        minlength: 6
     },
     date: {
         type: Date,

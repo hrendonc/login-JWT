@@ -3,6 +3,8 @@ const mongoose = require('mongoose')
 require('dotenv').config()
 const app = express()
 const authRoutes = require('./routes/auth.js')
+const dashboardRoutes = require('./routes/dashboard')
+const verifyToken = require('./routes/validate-token')
 
 // Capturar body
 app.use(express.urlencoded({ extended: false }));
@@ -16,6 +18,7 @@ mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true})
 
 // Middlewares
 app.use('/api/user', authRoutes)
+app.use('/api/dashboard', verifyToken, dashboardRoutes)
 
 // Start server
 const PORT = process.env.PORT || 3000
